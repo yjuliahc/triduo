@@ -11,6 +11,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <title>Triduo Luis Arbey Cárdenas</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -162,7 +163,6 @@
             font-size: 2em;           
         }
 
-        /* Estilos para el mapa */
         .map-container {
             margin: 20px 0;
             border-radius: 8px;
@@ -193,6 +193,33 @@
             z-index: 1;
         }
 
+        .download-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #b09a6c;
+            color: #000;
+            padding: 12px 25px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-size: 1.1em;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .download-btn:hover {
+            background: #b09a6c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
         @media (max-width: 768px) {
             .poster-container {
                 padding: 25px;
@@ -214,6 +241,13 @@
             
             .map-iframe {
                 height: 200px;
+            }
+
+            .download-btn {
+                bottom: 15px;
+                right: 15px;
+                padding: 10px 20px;
+                font-size: 1em;
             }
         }
 
@@ -241,11 +275,19 @@
             .map-container {
                 display: none;
             }
+            .download-btn {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="poster-container">
+    <button class="download-btn" onclick="downloadPoster()">
+        <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">download</i>
+        Guardar Recuerdo
+    </button>
+
+    <div class="poster-container" id="poster">
         <div class="church-decoration bottom-right">✞</div>
         
         <div class="title">
@@ -303,5 +345,28 @@
             — Mateo 11:28
         </div>
     </div>
+
+    <script>
+        function downloadPoster() {
+            const btn = document.querySelector('.download-btn');
+            btn.style.display = 'none';
+
+            html2canvas(document.querySelector("#poster"), {
+                allowTaint: true,
+                useCORS: true,
+                scale: 2,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'triduo-luis-arbey.jpg';
+                link.href = canvas.toDataURL('image/jpeg', 0.9);
+                link.click();
+                btn.style.display = 'block';
+            }).catch(err => {
+                console.error('Error:', err);
+                btn.style.display = 'block';
+            });
+        }
+    </script>
 </body>
 </html>

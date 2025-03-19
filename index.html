@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta property="og:title" content="Triduo de misas eterno descanso Luis Arbey Cárdenas">
-	<meta property="og:description" content="Recordatorio triduo de misas">
-	<meta property="og:image" content="https://yjuliahc.github.io/triduo/imagen-previa.jpg">
-	<meta property="og:url" content="https://yjuliahc.github.io/triduo/">
-	<meta property="og:type" content="website">
-	<meta name="twitter:card" content="summary_large_image">
+    <meta property="og:title" content="Triduo de misas eterno descanso Luis Arbey Cárdenas">
+    <meta property="og:description" content="Recordatorio triduo de misas">
+    <meta property="og:image" content="https://yjuliahc.github.io/triduo/imagen-previa.jpg">
+    <meta property="og:url" content="https://yjuliahc.github.io/triduo/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
     <title>Triduo Luis Arbey Cárdenas</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        /* Estilos originales conservados */
         body {
             margin: 0;
             padding: 10px;
@@ -81,7 +81,6 @@
             border: 1px solid rgba(192, 168, 120, 0.3);
         }
 
-        /* Nuevos estilos para el avatar */
         .memorial-portrait {
             width: 180px;
             height: 180px;
@@ -98,16 +97,40 @@
             color: #ffffff;
         }
 
-        /* Resto de estilos originales */
+        /* Nuevos estilos para iconos mejorados */
         .info-item {
-            margin: 20px 0;
-            font-size: 1.2em;
-            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
-        .icon {
-            margin-right: 15px;
-            font-size: 1.3em;
+        .info-item:hover {
+            background: rgba(192, 168, 120, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .material-icons {
+            font-size: 2.2em;
+            margin-right: 25px;
+            color: #c0a878;
+            min-width: 50px;
+            text-shadow: 0 0 8px rgba(192, 168, 120, 0.3);
+        }
+
+        .info-content {
+            font-size: 1.2em;
+            line-height: 1.4;
+        }
+
+        .info-content strong {
+            display: block;
+            font-family: 'Georgia', serif;
+            margin-bottom: 5px;
+            color: #f5f5f5;
         }
 
         .message {
@@ -134,17 +157,30 @@
             pointer-events: none;
         }
 
-        .church-decoration.top-left {
-            top: 10px;
-            left: 10px;
-            font-size: 2em;
-            transform: rotate(-15deg);
-        }
-
         .church-decoration.bottom-right {
             bottom: 10px;
             right: 10px;
             font-size: 2em;           
+        }
+
+        @media (max-width: 768px) {
+            .poster-container {
+                padding: 25px;
+                margin: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .material-icons {
+                font-size: 1.8em;
+                margin-right: 15px;
+            }
+            
+            .info-content {
+                font-size: 1em;
+            }
         }
 
         @media print {
@@ -165,6 +201,9 @@
             .bible-verse {
                 color: #666;
             }
+            .material-icons {
+                color: #666 !important;
+            }
         }
     </style>
 </head>
@@ -175,22 +214,33 @@
         <div class="title">
             <h1>Triduo de Misas</h1>
             <div class="subtitle">Por el eterno descanso de</div>
-            
-            <!-- Retrato añadido aquí -->
-            <img src="tioluis.jpg" alt="Luis Arbey Cárdenas Reyes" class="memorial-portrait">
-            
-            <h2>Luis Arbey Cárdenas Reyes</h2>
+            <img src="tioluis.jpg" alt="Luis Arbey Cárdenas" class="memorial-portrait">
+            <h2>Luis Arbey Cárdenas</h2>
         </div>
 
         <div class="info-section">
             <div class="info-item">
-                <span class="icon">📅</span><strong>Fechas:</strong> 20, 21 y 22 de Marzo
+                <i class="material-icons">event</i>
+                <div class="info-content">
+                    <strong>Fechas</strong>
+                    20, 21 y 22 de Marzo
+                </div>
             </div>
+
             <div class="info-item">
-                <span class="icon">🕯️</span><strong>Horario:</strong> 6:00 PM
+                <i class="material-icons">schedule</i>
+                <div class="info-content">
+                    <strong>Horario</strong>
+                    6:00 PM
+                </div>
             </div>
+
             <div class="info-item">
-                <span class="icon">⛪</span><strong>Lugar:</strong> Iglesia de San Luis
+                <i class="material-icons">church</i>
+                <div class="info-content">
+                    <strong>Lugar</strong>
+                    Iglesia de San Luis
+                </div>
             </div>
         </div>
 

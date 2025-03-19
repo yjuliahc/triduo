@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triduo Luis Arbey Cárdenas</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="posterCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('posterCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Configuración inicial
+        function init() {
+            resizeCanvas();
+            loadAssets();
+            window.addEventListener('resize', resizeCanvas);
+        }
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drawPoster();
+        }
+
+        function loadAssets() {
+            const bgImg = new Image();
+            bgImg.crossOrigin = "anonymous";
+            bgImg.src = 'https://images.unsplash.com/photo-1586528116315-7c7c7fe7e1a4';
+            
+            bgImg.onload = () => {
+                drawPoster(bgImg);
+            };
+        }
+
+        function drawPoster(bgImg) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if(bgImg) {
+                ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            const posterWidth = Math.min(800, canvas.width * 0.9);
+            const posterHeight = Math.min(800, canvas.height * 0.9); // Ajustado a cuadrado
+            const posterX = (canvas.width - posterWidth) / 2;
+            const posterY = (canvas.height - posterHeight) / 2;
+
+            // Fondo del póster
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            ctx.strokeStyle = '#c0a878';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.roundRect(posterX, posterY, posterWidth, posterHeight, 15);
+            ctx.fill();
+            ctx.stroke();
+
+            // Variables de posición dinámica
+            let currentY = posterY + 40;
+
+            // Título principal
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 42px Georgia';
+            currentY = wrapText(`TRIDUO DE MISAS`, posterX + (posterWidth/2)-50, currentY, posterWidth - 100, 50).y;
+
+            // Subtítulo
+            ctx.font = 'italic 24px Georgia';
+            currentY = wrapText(`Por el eterno descanso de`, (posterX + posterWidth/2)-50, currentY + 20, posterWidth - 100, 30).y;
+
+            // Nombre
+            ctx.fillStyle = '#c0a878';
+            ctx.font = 'bold 32px Georgia';
+            currentY = wrapText(`Luis Arbey Cárdenas`, (posterX + posterWidth/2)-50, currentY + 10, posterWidth - 100, 40).y;
+
+            // Sección de información
+            const infoStartY = currentY + 30;
+            let infoY = infoStartY;
+            
+            // Iconos y texto
+            ctx.textAlign = 'left';
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '24px Georgia';
+
+            // Fechas
+            drawIcon('📅', posterX + 50, infoY + 5, 40);
+            ctx.fillText(`Fechas: 20, 21 y 22 de Marzo`, posterX + 100, infoY + 15);
+            infoY += 60;
+
+            // Horario
+            drawIcon('🕯️', posterX + 50, infoY + 5, 40);
+            ctx.fillText(`Horario: 6:00 PM`, posterX + 100, infoY + 15);
+            infoY += 60;
+
+            // Lugar
+            drawIcon('⛪', posterX + 50, infoY + 5, 40);
+            ctx.fillText(`Lugar: Iglesia de San Luis`, posterX + 100, infoY + 15);
+            infoY += 100;
+
+            // Mensaje
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'italic 20px Georgia';
+            const messageText = [
+                "Se invita a familiares y amigos a acompañarnos en oración.",
+                "Su presencia honrará su memoria y fortalecerá nuestra fe."
+            ];
+            
+                currentY = wrapText(messageText[0], posterX + posterWidth/2, infoY, posterWidth - 100, 30).y + 30;
+				currentY = wrapText(messageText[1], posterX + posterWidth/2, infoY+30, posterWidth - 100, 30).y + 30;
+            
+
+            // Versículo
+            ctx.fillStyle = '#c0a878';
+            ctx.font = '18px Georgia';
+            const verseText = [
+                '"Venid a mí todos los que estáis cansados y agobiados,',
+                'y yo os daré descanso." — Mateo 11:28'
+            ];
+            verseText.forEach(line => {
+                currentY = wrapText(line, posterX + posterWidth/2, currentY, posterWidth - 100, 25).y + 5;
+            });
+
+            // Decoraciones
+            drawCross(posterX + 50, posterY + 50, 40);
+            drawCross(posterX + posterWidth - 90, posterY + posterHeight - 90, 40);
+        }
+
+        function drawIcon(icon, x, y, size) {
+            ctx.save();
+            ctx.font = `${size}px Arial`;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillStyle = '#c0a878';
+            ctx.fillText(icon, x, y);
+            ctx.restore();
+        }
+
+        function drawCross(x, y, size) {
+            ctx.save();
+            ctx.strokeStyle = '#c0a878';
+            ctx.lineWidth = 2;
+            ctx.translate(x, y);
+            
+            ctx.beginPath();
+            ctx.moveTo(0, -size/2);
+            ctx.lineTo(0, size/2);
+            ctx.moveTo(-size/4, 0);
+            ctx.lineTo(size/4, 0);
+            ctx.stroke();
+            
+            ctx.restore();
+        }
+
+        function wrapText(text, x, startY, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            let y = startY;
+            
+            ctx.textBaseline = 'top';
+            
+            for(let n = 0; n < words.length; n++) {
+                const testLine = line + words[n] + ' ';
+                const metrics = ctx.measureText(testLine);
+                if(metrics.width > maxWidth && n > 0) {
+                    ctx.fillText(line, x, y);
+                    line = words[n] + ' ';
+                    y += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, x, y);
+            return { y: y + lineHeight };
+        }
+
+        // Iniciar
+        init();
+    </script>
+</body>
+</html>

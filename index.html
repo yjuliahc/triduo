@@ -11,13 +11,13 @@
 	<meta name="twitter:card" content="summary_large_image">
     <title>Triduo Luis Arbey Cárdenas</title>
     <style>
+        /* Estilos originales conservados */
         body {
             margin: 0;
             padding: 10px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            /*align-items: center;*/
             background-image: url('https://images.unsplash.com/photo-1586528116315-7c7c7fe7e1a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
             background-size: cover;
             background-position: center;
@@ -81,6 +81,24 @@
             border: 1px solid rgba(192, 168, 120, 0.3);
         }
 
+        /* Nuevos estilos para el avatar */
+        .memorial-portrait {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid #c0a878;
+            object-fit: cover;
+            margin: 20px auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            margin: 10px 0;
+            color: #ffffff;
+        }
+
+        /* Resto de estilos originales */
         .info-item {
             margin: 20px 0;
             font-size: 1.2em;
@@ -152,12 +170,15 @@
 </head>
 <body>
     <div class="poster-container">
-        <!-- <div class="church-decoration top-left">⛪</div> -->
         <div class="church-decoration bottom-right">✞</div>
         
         <div class="title">
             <h1>Triduo de Misas</h1>
             <div class="subtitle">Por el eterno descanso de</div>
+            
+            <!-- Retrato añadido aquí -->
+            <img src="tioluis.jpg" alt="Luis Arbey Cárdenas" class="memorial-portrait">
+            
             <h2>Luis Arbey Cárdenas</h2>
         </div>
 

@@ -143,9 +143,23 @@
             font-size: 1.1em;
         }
 
+        #dedication-text {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            font-family: 'Georgia', serif;
+            color: rgba(192, 168, 120, 0.9);
+            font-size: 1.1em;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(192, 168, 120, 0.3);
+        }
+
         .bible-verse {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 15px;
+            padding-bottom: 20px;
             font-size: 1em;
             color: #c0a878;
             font-family: 'Georgia', serif;
@@ -163,42 +177,12 @@
             font-size: 2em;           
         }
 
-        .map-container {
-            margin: 20px 0;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid #c0a878;
-            box-shadow: 0 0 15px rgba(0,0,0,0.4);
-            position: relative;
-        }
-
-        .map-iframe {
-            width: 100%;
-            height: 250px;
-            border: 0;
-            filter: grayscale(30%) sepia(20%);
-            opacity: 0.9;
-        }
-
-        .map-label {
-            position: absolute;
-            bottom: 15px;
-            left: 15px;
-            background: rgba(0,0,0,0.7);
-            color: #c0a878;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-family: 'Georgia', serif;
-            font-size: 0.9em;
-            z-index: 1;
-        }
-
         .download-btn {
             position: fixed;
             bottom: 30px;
             right: 30px;
             background: #b09a6c;
-            color: #000;
+            color: #f9e1b1;
             padding: 12px 25px;
             border-radius: 25px;
             border: none;
@@ -211,7 +195,6 @@
         }
 
         .download-btn:hover {
-            background: #b09a6c;
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(0,0,0,0.4);
         }
@@ -237,10 +220,6 @@
             
             .info-content {
                 font-size: 1em;
-            }
-            
-            .map-iframe {
-                height: 200px;
             }
 
             .download-btn {
@@ -272,9 +251,6 @@
             .material-icons {
                 color: #666 !important;
             }
-            .map-container {
-                display: none;
-            }
             .download-btn {
                 display: none;
             }
@@ -284,7 +260,7 @@
 <body>
     <button class="download-btn" onclick="downloadPoster()">
         <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">download</i>
-        Guardar Recuerdo
+        Guardar
     </button>
 
     <div class="poster-container" id="poster">
@@ -319,17 +295,6 @@
                 <div class="info-content">
                     <strong>Lugar</strong>
                     Iglesia de San Luis
-                    
-                    <div class="map-container">
-                        <div class="map-label">Ubicación exacta</div>
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.611418745153!2d-76.0901908!3d4.5519268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e383f80586043a3%3A0x3b58e7e1a3d5bd95!2sCapilla%20San%20Luis!5e0!3m2!1ses!2sco!4v1719010004846!5m2!1ses!2sco" 
-                            class="map-iframe"
-                            allowfullscreen=""
-                            loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
-                    </div>
                 </div>
             </div>
         </div>
@@ -339,9 +304,11 @@
             Su presencia honrará su memoria y fortalecerá nuestra fe.
         </div>
 
+        <div id="dedication-text">Con amor, [Nombre]</div>
+
         <div class="bible-verse">
             "Venid a mí todos los que estáis cansados y agobiados,<br> 
-            y yo os daré descanso."<br>
+            y yo os daré descanso."<br><br/>
             — Mateo 11:28
         </div>
     </div>
@@ -349,23 +316,32 @@
     <script>
         function downloadPoster() {
             const btn = document.querySelector('.download-btn');
-            btn.style.display = 'none';
+            btn.disabled = true;
 
-            html2canvas(document.querySelector("#poster"), {
-                allowTaint: true,
-                useCORS: true,
-                scale: 2,
-                backgroundColor: null
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'triduo-luis-arbey.jpg';
-                link.href = canvas.toDataURL('image/jpeg', 0.9);
-                link.click();
-                btn.style.display = 'block';
-            }).catch(err => {
-                console.error('Error:', err);
-                btn.style.display = 'block';
-            });
+            const userName = prompt("¿Cómo te gustaría firmar este recuerdo?\n(Escribe tu nombre o deja en blanco para anónimo):") || "Un Ser Querido";
+
+            const dedication = document.getElementById('dedication-text');
+            dedication.textContent = `Con amor, ${userName}`;
+            dedication.style.display = 'block';
+
+            setTimeout(() => {
+                html2canvas(document.querySelector("#poster"), {
+                    useCORS: true,
+                    scale: 2,
+                    backgroundColor: null
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `Recuerdo-Luis-Arbey-${userName.replace(/ /g, '-')}.jpg`;
+                    link.href = canvas.toDataURL('image/jpeg', 0.95);
+                    link.click();
+                    
+                    dedication.style.display = 'none';
+                    btn.disabled = false;
+                }).catch(error => {
+                    console.error('Error al generar imagen:', error);
+                    btn.disabled = false;
+                });
+            }, 100);
         }
     </script>
 </body>
